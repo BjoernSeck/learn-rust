@@ -25,6 +25,8 @@ fn main() {
         4 => strings(),
         5 => scope_demonstration(),
         6 => slice_demo(),
+        7 => struct_intro(),
+        8 => tuple_struct_intro(),
         _ => println!("Input does not equal to any value"),
     }
 }
@@ -38,6 +40,8 @@ fn print_choose_path() {
     println!("4) All about Strings");
     println!("5) Scope demonstration");
     println!("6) Slice demonstration");
+    println!("7) Struct intro");
+    println!("8) Tuple struct intro");
     println!("---------");
 }
 
@@ -237,12 +241,51 @@ fn first_word(s: &str) -> &str {
 }
 
 fn struct_intro() {
-    let user1 = User {
-        active: true,
-        username: String::from("someusername123"),
-        email: String::from("someone@example.com"),
-        sign_in_count: 1,
+    let mut user1 = build_user(String::from("anotheremail"), String::from("anotheremail"));
+
+    user1.email = String::from("anotheremail@example.com");
+
+    println!(
+        "User1: {}, {}, {}, {}",
+        user1.active, user1.username, user1.email, user1.sign_in_count
+    );
+
+    // Reminder: To ensure memory safety, after the line let user2 = ...,
+    // Rust considers user1 as no longer valid. Its values are **moved**
+    let user2 = User {
+        email: String::from("another@example.com"),
+        ..user1
     };
+
+    // This will not move user3. email and username do not implement the Copy Trait
+    // but the other values do.
+    let user3 = User {
+        email: String::from("another@example.com"),
+        username: String::from("another"),
+        ..user2
+    };
+
+    println!(
+        "User2: {}, {}, {}, {}",
+        user2.active, user2.username, user2.email, user2.sign_in_count
+    );
+
+    println!(
+        "User3: {}, {}, {}, {}",
+        user3.active, user3.username, user3.email, user3.sign_in_count
+    );
+}
+
+fn build_user(email: String, username: String) -> User {
+    //Init shorthand
+    //Because the email field and the email parameter have the same name,
+    // we only need to write email rather than email: email.
+    User {
+        active: true,
+        username,
+        email,
+        sign_in_count: 1,
+    }
 }
 
 struct User {
@@ -251,3 +294,18 @@ struct User {
     email: String,
     sign_in_count: u64,
 }
+
+fn tuple_struct_intro() {
+    let black = Color(0, 0, 0);
+    let origin = Point(1, 1, 1);
+
+    println!("{}", black.0);
+    println!("{}", origin.0);
+
+    //Unit-Like Structs Without Any Fields
+    //let subject = AlwaysEqual;
+}
+
+struct Color(i32, i32, i32);
+struct Point(i32, i32, i32);
+//struct AlwaysEqual;
