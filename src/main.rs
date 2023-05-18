@@ -27,6 +27,7 @@ fn main() {
         6 => slice_demo(),
         7 => struct_intro(),
         8 => tuple_struct_intro(),
+        9 => enum_demo(),
         _ => println!("Input does not equal to any value"),
     }
 }
@@ -42,6 +43,7 @@ fn print_choose_path() {
     println!("6) Slice demonstration");
     println!("7) Struct intro");
     println!("8) Tuple struct intro");
+    println!("9) Enum intro");
     println!("---------");
 }
 
@@ -309,3 +311,33 @@ fn tuple_struct_intro() {
 struct Color(i32, i32, i32);
 struct Point(i32, i32, i32);
 //struct AlwaysEqual;
+
+fn enum_demo() {
+    let home = IpAddr::V4(127, 0, 0, 1);
+    let loopback = IpAddr::V6(String::from("::1"));
+    println!("{:?}", home);
+    println!("{:?}", loopback);
+
+    let message_quit = Message::Quit;
+    // let message_move = Message::Move {x: 1, y: 2};
+    let message_write = Message::Write(String::from("test"));
+    let message_change_color = Message::ChangeColor(1,2,3);
+    println!("{:?}", message_quit);
+    // println!("{:?}", message_move);
+    println!("{:?}", message_write);
+    println!("{:?}", message_change_color);
+}
+
+#[derive(Debug)]
+enum IpAddr {
+    V4(u8, u8, u8, u8),
+    V6(String),
+}
+
+#[derive(Debug)]
+enum Message {
+    Quit,
+    // Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
