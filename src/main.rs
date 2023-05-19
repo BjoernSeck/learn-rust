@@ -28,6 +28,7 @@ fn main() {
         7 => struct_intro(),
         8 => tuple_struct_intro(),
         9 => enum_demo(),
+        10 => option_demo(),
         _ => println!("Input does not equal to any value"),
     }
 }
@@ -44,6 +45,7 @@ fn print_choose_path() {
     println!("7) Struct intro");
     println!("8) Tuple struct intro");
     println!("9) Enum intro");
+    println!("10) Option demo");
     println!("---------");
 }
 
@@ -321,11 +323,12 @@ fn enum_demo() {
     let message_quit = Message::Quit;
     // let message_move = Message::Move {x: 1, y: 2};
     let message_write = Message::Write(String::from("test"));
-    let message_change_color = Message::ChangeColor(1,2,3);
+    let message_change_color = Message::ChangeColor(1, 2, 3);
     println!("{:?}", message_quit);
     // println!("{:?}", message_move);
     println!("{:?}", message_write);
     println!("{:?}", message_change_color);
+    message_write.call();
 }
 
 #[derive(Debug)]
@@ -340,4 +343,32 @@ enum Message {
     // Move { x: i32, y: i32 },
     Write(String),
     ChangeColor(i32, i32, i32),
+}
+
+impl Message {
+    fn call(&self) {
+        println!("Called Message");
+    }
+}
+
+fn option_demo() {
+    let some_number = Some(5);
+    let some_char = Some('e');
+
+    let absent_number: Option<i32> = None;
+
+    println!("{:?}", some_number);
+    println!("{:?}", some_char);
+    println!("{:?}", absent_number);
+    let x: i8 = 6;
+    let y: Option<i8> = Some(5);
+    //
+    // This does not work yet:
+    // let sum = x + y;
+    let y = y.unwrap_or_default();
+
+    // Now it does
+    let sum = x + y;
+
+    println!("{sum}")
 }
