@@ -29,6 +29,7 @@ fn main() {
         8 => tuple_struct_intro(),
         9 => enum_demo(),
         10 => option_demo(),
+        11 => if_let_demo(),
         _ => println!("Input does not equal to any value"),
     }
 }
@@ -44,8 +45,9 @@ fn print_choose_path() {
     println!("6) Slice demonstration");
     println!("7) Struct intro");
     println!("8) Tuple struct intro");
-    println!("9) Enum intro");
+    println!("9) Enum demo");
     println!("10) Option demo");
+    println!("11) If let demo");
     println!("---------");
 }
 
@@ -371,4 +373,17 @@ fn option_demo() {
     let sum = x + y;
 
     println!("{sum}")
+}
+
+fn if_let_demo() {
+    let config_max = Some(3u8);
+    match config_max {
+        Some(max) => println!("(Match) The maximum is configured to be {}", max),
+        _ => (),
+    }
+
+    let config_max = Some(3u8);
+    if let Some(max) = config_max {
+        println!("(If Let) The maximum is configured to be {}", max);
+    }
 }
