@@ -1,3 +1,5 @@
+use crate::demos::get_user_number_input;
+
 pub mod if_let;
 pub mod demos;
 
@@ -11,7 +13,7 @@ pub mod demos;
 fn main() {
     print_choose_path();
 
-    let user_input: i32 = demos::get_user_number_input();
+    let user_input: i32 = get_user_number_input();
 
     if user_input < 0 {
         println!("Why would you think there are negative numbers?")
