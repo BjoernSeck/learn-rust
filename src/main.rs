@@ -1,4 +1,5 @@
 use crate::demos::get_user_number_input;
+// use crate::restaurant
 
 pub mod if_let;
 pub mod demos;
@@ -31,6 +32,7 @@ fn main() {
         9 => demos::enum_demo(),
         10 => demos::option_demo(),
         11 => if_let::if_let_demo(),
+//         12 => restaurant::eat_at_restaurant(),
         _ => println!("Input does not equal to any value"),
     }
 }
