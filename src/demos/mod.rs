@@ -1,3 +1,7 @@
+//mod.rs is the old style. Use domos.rs instead without this folder. This is only intended to show that it could be usecould be used.
+pub mod vector;
+pub mod string;
+
 use rand::Rng;
 use std::cmp::Ordering;
 use std::io;
