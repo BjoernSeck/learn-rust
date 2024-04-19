@@ -20,7 +20,7 @@ fn main() {
     }
 
     match user_input {
-        1 => demos::guessing_game(),
+        1 => demos::guessing_game::run(),
         2 => demos::is_divisible_by_4_3_2(),
         3 => demos::breaking_nested_loops(),
         4 => demos::strings(),

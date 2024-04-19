@@ -1,9 +1,8 @@
 //mod.rs is the old style. Use domos.rs instead without this folder. This is only intended to show that it could be usecould be used.
 pub mod vector;
 pub mod string;
+pub mod guessing_game;
 
-use rand::Rng;
-use std::cmp::Ordering;
 use std::io;
 
 pub fn option_demo() {
@@ -62,46 +61,6 @@ pub fn get_user_string_input() -> String {
     };
 
     input
-}
-
-/// Starts the guessing game
-///
-/// # Function
-/// The user will choose a number and the program will tell you if its higher or lower then the
-/// generated number. You'll win when the value is equal!
-pub fn guessing_game() {
-    println!("Guess the number!");
-
-    let secret_number = rand::thread_rng().gen_range(1..=100);
-
-    loop {
-        println!("Please input your guess.");
-
-        let mut guess = String::new();
-
-        io::stdin()
-            .read_line(&mut guess)
-            .expect("Failed to read line");
-
-        let guess: u32 = match guess.trim().parse() {
-            Ok(num) => num,
-            Err(_) => {
-                println!("The value you entered is not a number!");
-                continue;
-            }
-        };
-
-        println!("You guessed: {guess}");
-
-        match guess.cmp(&secret_number) {
-            Ordering::Less => println!("Too small!"),
-            Ordering::Greater => println!("Too big!"),
-            Ordering::Equal => {
-                println!("You win!");
-                break;
-            }
-        }
-    }
 }
 
 pub fn is_divisible_by_4_3_2() {
@@ -282,8 +241,8 @@ pub fn tuple_struct_intro() {
     let black = Color(0, 0, 0);
     let origin = Point(1, 1, 1);
 
-    println!("{}", black.0);
-    println!("{}", origin.0);
+    println!("{} {} {}", black.0, black.1, black.2);
+    println!("{} {} {}", origin.0, origin.1, origin.2);
 
     //Unit-Like Structs Without Any Fields
     //let subject = AlwaysEqual;
@@ -296,24 +255,37 @@ struct Point(i32, i32, i32);
 pub fn enum_demo() {
     let home = IpAddr::V4(127, 0, 0, 1);
     let loopback = IpAddr::V6(String::from("::1"));
-    println!("{:?}", home);
-    println!("{:?}", loopback);
+    route(home);
+    route(loopback);
 
     let message_quit = Message::Quit;
     // let message_move = Message::Move {x: 1, y: 2};
     let message_write = Message::Write(String::from("test"));
     let message_change_color = Message::ChangeColor(1, 2, 3);
     println!("{:?}", message_quit);
-    // println!("{:?}", message_move);
+//     println!("{:?}", message_move);
     println!("{:?}", message_write);
     println!("{:?}", message_change_color);
     message_write.call();
+}
+
+fn route(ip_kind: IpAddr) {
+    ip_kind.call();
 }
 
 #[derive(Debug)]
 enum IpAddr {
     V4(u8, u8, u8, u8),
     V6(String),
+}
+
+impl IpAddr {
+    fn call(&self) {
+        match self {
+            IpAddr::V4 (x, y, z, n) => println!("V4: {}, {}, {}, {}", x, y, z, n),
+            IpAddr::V6 (s) => println!("V6: {}", s)
+        }
+    }
 }
 
 #[derive(Debug)]
@@ -327,5 +299,12 @@ enum Message {
 impl Message {
     fn call(&self) {
         println!("Called Message");
+    }
+    fn calling(&self) {
+        match self {
+            Message::Quit => println!("Called Quit"),
+            Message::Write (s) => println!("Write: {}", s),
+            Message::ChangeColor (r, g, b) => println!("r: {}, g: {}, b: {}", r, g,b)
+        }
     }
 }
